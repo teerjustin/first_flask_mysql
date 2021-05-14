@@ -15,10 +15,9 @@ def index():
     query = "SELECT * FROM users"
     users = mysql.query_db(query)
     print(users)
+    return render_template("user.html")
 
-    return render_template("index.html")
 
-# incomplete
 @app.route("/user/<int:user_id>")
 def display_user(user_id):
     print(user_id)
@@ -28,11 +27,9 @@ def display_user(user_id):
     data = {
         "id": user_id
     }
-
     user_from_database = mysql.query_db(query, data)
     print(user_from_database)
-
-    return render_template("user.html", user = user_from_database)
+    return render_template("index.html", user = user_from_database[0])
 
 @app.route("/users")
 def display_users():
@@ -64,9 +61,45 @@ def createUser():
 
 
 #update
+@app.route("/users/<int:user_id>/edit")
+def edit_user_form(user_id):
+    mysql = connectToMySQL("users_schema")
+    query = "SELECT * FROM users WHERE id = %(id)s;"
+    data = {
+        "id": user_id
+    }
+    user_from_database = mysql.query_db(query, data)
+
+    return render_template("edit_user.html", user = user_from_database[0])
+
+
+@app.route('/users/<int:user_id>/edit', methods = ['POST'])
+def update_user(user_id):
+    mysql = connectToMySQL("users_schema")
+    insert_query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
+    data = {
+        "first_name": request.form['first_name'],
+        "last_name": request.form['last_name'],
+        "email": request.form['email'],
+        "id": user_id
+    }
+    
+    mysql.query_db(insert_query, data)
+    return redirect("/users")
 
 
 #delete
+@app.route('/users/<int:user_id>/delete')
+def delete_user(user_id):
+    mysql = connectToMySQL("users_schema")
+    query = "DELETE FROM users WHERE id = %(id)s;"
+    data = {
+        "id": user_id
+    }
+    mysql.query_db(query, data) 
+
+    return redirect("/users")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

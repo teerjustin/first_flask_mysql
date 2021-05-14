@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello There</h1>
+    <h1>User {{user.id}}</h1>
+    <h2>Full Name : {{ user['first_name'] }} {{ user['last_name'] }}</h2>
+    <h2>Email : {{ user['email'] }}</h2>
+    <h2>Created On : {{ user['created_at'] }}</h2>
+    <h2>Last Updated On : {{ user['updated_at'] }} </h2>
 </body>
 </html>
