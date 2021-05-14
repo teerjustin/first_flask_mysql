@@ -100,6 +100,16 @@ def delete_user(user_id):
 
     return redirect("/users")
 
+@app.route('/user/<int:user_id>/delete')
+def delete_user2(user_id):
+    mysql = connectToMySQL("users_schema")
+    query = "DELETE FROM users WHERE id = %(id)s;"
+    data = {
+        "id": user_id
+    }
+    mysql.query_db(query, data) 
+
+    return redirect("/users")
 
 if __name__ == "__main__":
     app.run(debug=True)

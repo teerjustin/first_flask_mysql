@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Read</title>
 </head>
 <body>
     <h1>User {{user.id}}</h1>
@@ -12,5 +12,7 @@
     <h2>Email : {{ user['email'] }}</h2>
     <h2>Created On : {{ user['created_at'] }}</h2>
     <h2>Last Updated On : {{ user['updated_at'] }} </h2>
+    <a href="users/{{ user['id']}}/edit">edit |</a>
+    <a href="{{ user['id']}}/delete">delete</a>
 </body>
 </html>
